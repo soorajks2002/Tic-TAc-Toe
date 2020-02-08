@@ -1,0 +1,162 @@
+from tkinter import *
+
+root = Tk()
+root.title("TIC  TAC  TOE")
+root.geometry("400x400")
+
+back_ground = Label(root,bg="#4F4F4F")
+back_ground.place(relheight=1,relwidth=1)
+
+backend = [[None]*3,[None]*3,[None]*3]
+turn_decider = 0
+
+def winner_decider (x) :
+    
+    result = "losser"
+    
+    if backend[0][0] == backend[0][1] == backend[0][2] == x :
+        result = "winner"
+        
+    elif backend[1][0] == backend[1][1] == backend[1][2] == x :
+        result = "winner"
+        
+    elif backend[2][0] == backend[2][1] == backend[2][2] == x :
+        result = "winner"
+        
+    elif backend[0][0] == backend[1][0] == backend[2][0] == x :
+        result = "winner"
+        
+    elif backend[0][1] == backend[1][1] == backend[2][1] == x :
+        result = "winner"
+        
+    elif backend[0][2] == backend[1][2] == backend[2][2] == x :
+        result = "winner"
+        
+    elif backend[0][0] == backend[1][1] == backend[2][2] == x :
+        result = "winner"
+        
+    elif backend[0][2] == backend[1][1] == backend[2][0] == x :
+        result = "winner"
+        
+    if result == "winner" :
+        
+        globals()["turn_decider"] = 0
+        
+        for r in range(3) :
+            for c in range(3) :
+                backend[r][c]=None 
+        
+        result_frame = Frame(root,bg="black")
+        result_frame.place(relx=0.025,rely=0.025,relheight=0.95,relwidth=0.95)
+        
+        replay_b = Button(result_frame,bg="#77776D",fg="#D6D609",text="REPLAY",font=("acme",20),activebackground="#3F3F34",command=game)
+        replay_b.place(rely=0.05,relx=0.65,relheight=0.15,relwidth=0.25)
+        
+        quit_b = Button(result_frame,bg="#77776D",fg="#D6D609",text="QUIT",font=("acme",20),activebackground="#3F3F34",command=root.quit)
+        quit_b.place(rely=0.05,relx=0.1,relheight=0.15,relwidth=0.25)
+        
+        if x == 1 :
+            text_f = "WINNER IS\nPLAYER 1"
+            
+        else :
+            text_f = "WINNER IS \nPLAYER 2"
+        
+        winner_l = Label(result_frame,bg="black",text=text_f,fg="#D6D609",font=("acme",30),justify=CENTER)
+        winner_l.place(relx = 0.1,rely=0.3,relheight=0.5,relwidth=0.8)
+        
+                
+    if globals()["turn_decider"] == 9 :
+        
+        print("\nrunning\n")
+        
+        globals()["turn_decider"] = 0
+        
+        for r in range(3) :
+            for c in range(3) :
+                backend[r][c]=None
+        
+        result_frame = Frame(root,bg="black")
+        result_frame.place(relx=0.025,rely=0.025,relheight=0.95,relwidth=0.95)
+        
+        replay_b = Button(result_frame,bg="#77776D",fg="#D6D609",text="REPLAY",font=("acme",20),activebackground="#3F3F34",command=game)
+        replay_b.place(rely=0.05,relx=0.65,relheight=0.15,relwidth=0.25)
+        
+        quit_b = Button(result_frame,bg="#77776D",fg="#D6D609",text="QUIT",font=("acme",20),activebackground="#3F3F34",command=root.quit)
+        quit_b.place(rely=0.05,relx=0.1,relheight=0.15,relwidth=0.25)
+        
+        winner_l = Label(result_frame,bg="black",text="DRAW",fg="#D6D609",font=("acme",30),justify=CENTER)
+        winner_l.place(relx = 0.1,rely=0.3,relheight=0.5,relwidth=0.8)
+    
+
+def turn_master (r,c,x,y) :
+    
+    if globals()["turn_decider"]%2 == 0 :
+    
+        but = Label(game_frame,text="X",bg="#0CB2BF",fg="yellow",font=("acme",40))
+        but.place(relx=x ,rely=y,relheight=0.2 ,relwidth=0.25 )
+        backend[r][c] = 1
+        
+        globals()["turn_decider"] += 1
+        
+        winner_decider(1)
+        
+        player_n = Label(game_frame,bg="#B9381F",font=("acme",18),text="player 2")
+        player_n.place(relx=0.1 ,rely=0.8 ,relheight=0.15 ,relwidth=0.8)
+        
+    else :
+        but = Label(game_frame,text="O",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=x ,rely=y,relheight=0.2 ,relwidth=0.25 )
+        backend[r][c] = 0
+        
+        globals()["turn_decider"] += 1
+        
+        winner_decider(0)
+        
+        player_n = Label(game_frame,bg="#B9381F",font=("acme",18),text="player 1")
+        player_n.place(relx=0.1 ,rely=0.8 ,relheight=0.15 ,relwidth=0.8)    
+
+
+def game ():
+    
+    global game_frame
+    
+    game_frame = Frame(root,bg="#EEB363")
+    game_frame.place(relx=0.025,rely=0.025,relheight=0.95,relwidth=0.95)
+    
+    block_1 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(0,0,0.0625,0.05))
+    block_1.place(relx=0.0625 ,rely=0.05 ,relheight=0.2 ,relwidth=0.25 )
+    
+    block_2 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(0,1,0.375,0.05))
+    block_2.place(relx=0.375 ,rely=0.05 ,relheight=0.2 ,relwidth=0.25 )
+    
+    block_3 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(0,2,0.6875,0.05))
+    block_3.place(relx=0.6875 ,rely=0.05 ,relheight=0.2 ,relwidth=0.25 )
+    
+    block_4 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(1,0,0.0625,0.3))
+    block_4.place(relx=0.0625 ,rely=0.3 ,relheight=0.2 ,relwidth=0.25 )
+    
+    block_5 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(1,1,0.375,0.3))
+    block_5.place(relx=0.375 ,rely=0.3 ,relheight=0.2 ,relwidth=0.25 )
+    
+    block_6 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(1,2,0.6875,0.3))
+    block_6.place(relx=0.6875 ,rely=0.3 ,relheight=0.2 ,relwidth=0.25 )
+    
+    block_7 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(2,0,0.0625,0.55))
+    block_7.place(relx=0.0625 ,rely=0.55 ,relheight=0.2 ,relwidth=0.25 )
+    
+    block_8 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(2,1,0.375,0.55))
+    block_8.place(relx=0.375 ,rely=0.55 ,relheight=0.2 ,relwidth=0.25 )
+    
+    block_9 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(2,2,0.6875,0.55))
+    block_9.place(relx=0.6875 ,rely=0.55 ,relheight=0.2 ,relwidth=0.25 )
+    
+    
+    
+    player_n = Label(game_frame,bg="#B9381F",font=("acme",18),text="player 1")
+    player_n.place(relx=0.1 ,rely=0.8 ,relheight=0.15 ,relwidth=0.8)
+
+
+game()
+globals()["turn_decider"] = 0
+
+root.mainloop()
