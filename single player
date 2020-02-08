@@ -1,0 +1,224 @@
+from tkinter import *
+import random
+
+root = Tk()
+root.title("TIC  TAC  TOE")
+root.geometry("400x400")
+
+back_ground = Label(root,bg="#4F4F4F")
+back_ground.place(relheight=1,relwidth=1)
+
+backend = [None]*9
+values_over = [None]*9
+turn_decider = 0
+position = None
+
+def winner_decider (x) :
+    
+    result = "losser"
+    
+    if backend[0] == backend[1]== backend[2] == x :
+        result = "winner"
+        
+    elif backend[3] == backend[4] == backend[5] == x :
+        result = "winner"
+        
+    elif backend[6] == backend[7] == backend[8] == x :
+        result = "winner"
+        
+    elif backend[0] == backend[3] == backend[6] == x :
+        result = "winner"
+        
+    elif backend[1] == backend[4] == backend[7] == x :
+        result = "winner"
+        
+    elif backend[2] == backend[5] == backend[8] == x :
+        result = "winner"
+        
+    elif backend[0] == backend[4] == backend[8] == x :
+        result = "winner"
+        
+    elif backend[2] == backend[4] == backend[6] == x :
+        result = "winner"
+        
+    if result == "winner" :
+        
+        globals()["turn_decider"] = 0
+        
+        for rrrr in range(9) :
+            backend[rrrr]=None 
+
+        for xxxx in range(9) :
+            values_over[xxxx] = None
+
+        print("\n\n\nWINNNER \n\n",values_over,"\n\n",backend)
+        
+        result_frame = Frame(root,bg="black")
+        result_frame.place(relx=0.025,rely=0.025,relheight=0.95,relwidth=0.95)
+        
+        replay_b = Button(result_frame,bg="#77776D",fg="#D6D609",text="REPLAY",font=("acme",20),activebackground="#3F3F34",command=game)
+        replay_b.place(rely=0.05,relx=0.65,relheight=0.15,relwidth=0.25)
+        
+        quit_b = Button(result_frame,bg="#77776D",fg="#D6D609",text="QUIT",font=("acme",20),activebackground="#3F3F34",command=root.quit)
+        quit_b.place(rely=0.05,relx=0.1,relheight=0.15,relwidth=0.25)
+        
+        if x == 0 :
+            text_f = "COMPUTER WINS"
+            
+        else :
+            text_f = "YOU WIN"
+        
+        winner_l = Label(result_frame,bg="black",text=text_f,fg="#D6D609",font=("acme",30),justify=CENTER)
+        winner_l.place(relx = 0.1,rely=0.3,relheight=0.5,relwidth=0.8)
+
+        return False
+        
+                
+    if globals()["turn_decider"] == 9 :
+        
+        globals()["turn_decider"] = 0
+        
+        for rrr in range(9) :
+            backend[rrr]=None 
+
+        for xxx in range(9) :
+            values_over[xxx] = None
+
+        print("\n\n\nDRAW \n\n",values_over,"\n\n",backend)
+        
+        result_frame = Frame(root,bg="black")
+        result_frame.place(relx=0.025,rely=0.025,relheight=0.95,relwidth=0.95)
+        
+        replay_b = Button(result_frame,bg="#77776D",fg="#D6D609",text="REPLAY",font=("acme",20),activebackground="#3F3F34",command=game)
+        replay_b.place(rely=0.05,relx=0.65,relheight=0.15,relwidth=0.25)
+        
+        quit_b = Button(result_frame,bg="#77776D",fg="#D6D609",text="QUIT",font=("acme",20),activebackground="#3F3F34",command=root.quit)
+        quit_b.place(rely=0.05,relx=0.1,relheight=0.15,relwidth=0.25)
+        
+        winner_l = Label(result_frame,bg="black",text="DRAW",fg="#D6D609",font=("acme",30),justify=CENTER)
+        winner_l.place(relx = 0.1,rely=0.3,relheight=0.5,relwidth=0.8)
+
+        return False
+
+    return True
+    
+
+def computer_turn(): 
+
+    #print("\nrunning computer turn\n")
+
+    def random_generator () :
+
+        globals()["position"] = random.randrange(0,9)
+
+        print("\nposition given is ",globals()["position"])
+
+        if globals()["position"] in values_over :
+
+            print("\n\n found postion in values over \n\n")
+            random_generator()
+
+    random_generator()
+
+
+    backend[globals()["position"]] = 0
+    values_over[globals()["turn_decider"]] = globals()["position"]
+    globals()["turn_decider"] += 1
+
+    print("\n\nposition ",globals()["position"],"\n\nover",values_over,"\n\nturn decider is ",globals()["turn_decider"],"\n")
+
+    if globals()["position"] == 0 :
+        but = Label(game_frame,text="O",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=0.0625 ,rely=0.0625 ,relheight=0.25 ,relwidth=0.25 )
+
+    elif globals()["position"] == 1 :
+        but = Label(game_frame,text="0",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=0.375 ,rely=0.0625 ,relheight=0.25 ,relwidth=0.25 )
+
+    elif globals()["position"] == 2 :
+        but = Label(game_frame,text="O",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=0.6875 ,rely=0.0625 ,relheight=0.25 ,relwidth=0.25 )
+
+    elif globals()["position"] == 3 :
+        but = Label(game_frame,text="O",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=0.0625 ,rely=0.375 ,relheight=0.25 ,relwidth=0.25 )
+
+    elif globals()["position"] == 4 :
+        but = Label(game_frame,text="O",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=0.375 ,rely=0.375 ,relheight=0.25 ,relwidth=0.25 )
+        
+    elif globals()["position"] == 5 :
+        but = Label(game_frame,text="O",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=0.6875 ,rely=0.375 ,relheight=0.25 ,relwidth=0.25 )
+
+    elif globals()["position"] == 6 :
+        but = Label(game_frame,text="O",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=0.0625 ,rely=0.6875 ,relheight=0.25 ,relwidth=0.25 )
+
+    elif globals()["position"] == 7 :
+        but = Label(game_frame,text="O",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=0.375 ,rely=0.6875 ,relheight=0.25 ,relwidth=0.25 )
+
+    elif globals()["position"] == 8 :
+        but = Label(game_frame,text="O",bg="#0CBF4A",fg="yellow",font=("acme",40))
+        but.place(relx=0.6875 ,rely=0.6875 ,relheight=0.25 ,relwidth=0.25 )
+
+    
+    winner_decider(0)
+
+
+def turn_master (n,x,y) :
+
+    #print("\nrunning turn master\n")
+    
+    but = Label(game_frame,text="X",bg="#0CB2BF",fg="yellow",font=("acme",40))
+    but.place(relx=x ,rely=y,relheight=0.25 ,relwidth=0.25 )
+
+    backend[n] = 1
+    values_over[globals()["turn_decider"]] = n
+    globals()["turn_decider"] += 1
+    
+    if winner_decider(1) :
+    
+        computer_turn()
+        
+
+def game ():
+    
+    global game_frame
+    
+    game_frame = Frame(root,bg="#EEB363")
+    game_frame.place(relx=0.025,rely=0.025,relheight=0.95,relwidth=0.95)
+    
+    block_1 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(0,0.0625,0.0625))
+    block_1.place(relx=0.0625 ,rely=0.0625 ,relheight=0.25 ,relwidth=0.25 )
+    
+    block_2 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(1,0.375,0.0625))
+    block_2.place(relx=0.375 ,rely=0.0625 ,relheight=0.25 ,relwidth=0.25 )
+    
+    block_3 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(2,0.6875,0.0625))
+    block_3.place(relx=0.6875 ,rely=0.0625 ,relheight=0.25 ,relwidth=0.25 )
+    
+    block_4 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(3,0.0625,0.375))
+    block_4.place(relx=0.0625 ,rely=0.375 ,relheight=0.25 ,relwidth=0.25 )
+    
+    block_5 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(4,0.375,0.375))
+    block_5.place(relx=0.375 ,rely=0.375 ,relheight=0.25 ,relwidth=0.25 )
+    
+    block_6 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(5,0.6875,0.375))
+    block_6.place(relx=0.6875 ,rely=0.375 ,relheight=0.25 ,relwidth=0.25 )
+    
+    block_7 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(6,0.0625,0.6875))
+    block_7.place(relx=0.0625 ,rely=0.6875 ,relheight=0.25 ,relwidth=0.25 )
+    
+    block_8 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(7,0.375,0.6875))
+    block_8.place(relx=0.375 ,rely=0.6875 ,relheight=0.25 ,relwidth=0.25 )
+    
+    block_9 = Button(game_frame,bg="#D76C61",command=lambda:turn_master(8,0.6875,0.6875))
+    block_9.place(relx=0.6875 ,rely=0.6875 ,relheight=0.25 ,relwidth=0.25 )
+
+
+game()
+globals()["turn_decider"] = 0
+
+root.mainloop()
